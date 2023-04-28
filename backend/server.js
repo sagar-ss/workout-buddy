@@ -3,7 +3,7 @@ const express = require('express');
 
 const mongoose = require('mongoose');
 
-const workoutRoutes = require('./routes/workouts.js')
+const workoutRoutes = require('./routes/workoutsRoute.js')
 
 // express app
 const app = express();
@@ -23,6 +23,7 @@ app.use((req,res,next)=>{
 // routes
 
 app.use('/api/workouts/',workoutRoutes);
+
 
 // db connection {it's a async func}
 mongoose.connect(process.env.MONG_URI)
