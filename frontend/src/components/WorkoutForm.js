@@ -2,11 +2,11 @@ import { useState ,useContext} from 'react'
 import { WorkoutContext } from './context/WorkoutContext'
 
 const WorkoutForm = () => {
-  const [title, setTitle] = useState('')
-  const [loads, setLoad] = useState('')
-  const [reps, setReps] = useState('')
-  const [error, setError] = useState(null)
-
+  const [title, setTitle] = useState('');
+  const [loads, setLoad] = useState('');
+  const [reps, setReps] = useState('');
+  const [error, setError] = useState(null);
+  const [emptyFieldArray, setEmptyFieldArray] = useState([]);
   const {setWorkoutArray} = useContext(WorkoutContext);
 
   const handleSubmit = async (e) => {
@@ -25,12 +25,15 @@ const WorkoutForm = () => {
 
     if(!response.ok)
     {
-      setError(json.error)
+      setError(json.error);
+      setEmptyFieldArray(json.emptyFields);
+
     }
     
     if(response.ok)
     {
       setError(null)
+      setEmptyFieldArray([])
       setTitle('')
       setLoad('')
       setReps('')
@@ -49,6 +52,7 @@ const WorkoutForm = () => {
         type="text" 
         onChange={(e) => setTitle(e.target.value)} 
         value={title}
+        className={emptyFieldArray.includes('title')?'error':''}
       />
 
       <label>Load (in kg):</label>
@@ -56,6 +60,7 @@ const WorkoutForm = () => {
         type="number" 
         onChange={(e) => setLoad(e.target.value)} 
         value={loads}
+        className={emptyFieldArray.includes('loads')?'error':''}
       />
 
       <label>Number of Reps:</label>
@@ -63,6 +68,7 @@ const WorkoutForm = () => {
         type="number" 
         onChange={(e) => setReps(e.target.value)} 
         value={reps} 
+        className={emptyFieldArray.includes('reps') ? 'error' : ''}
       />
 
       <button>Add Workout</button>
@@ -71,4 +77,4 @@ const WorkoutForm = () => {
   )
 }
 
-export default WorkoutForm
+export default WorkoutForm;
