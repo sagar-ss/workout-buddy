@@ -1,10 +1,14 @@
 import React from 'react'
-import {useEffect, useState} from 'react';
+import {useEffect, useContext} from 'react';
 import WorkoutDetails from '../components/WorkoutDetails';
 import WorkoutForm from '../components/WorkoutForm';
+import { WorkoutContext } from '../components/context/WorkoutContext';
+
 
 const Home = () => {
-  const[workouts,setWorkouts] = useState(null);
+
+  // const[workouts,setWorkouts] = useState(null);
+  const {workoutArray,setWorkoutArray} = useContext(WorkoutContext);
   useEffect(()=>{
 
     const fetchWorkout = async()=>{
@@ -13,7 +17,8 @@ const Home = () => {
 
       if(response.ok)
       {
-        setWorkouts(json);
+        // setWorkouts(json);
+        setWorkoutArray(json);
       }
     }
     fetchWorkout();
@@ -22,7 +27,10 @@ const Home = () => {
   return (
     <div className='home'>
         <div className='workouts'>
-          {workouts && workouts.map((workout)=>(
+          {/* {workouts && workouts.map((workout)=>(
+            <WorkoutDetails key={workout._id} workout={workout} />
+          ))} */}
+          {workoutArray && workoutArray.map((workout)=>(
             <WorkoutDetails key={workout._id} workout={workout} />
           ))}
         </div>

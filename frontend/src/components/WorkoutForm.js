@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState ,useContext} from 'react'
+import { WorkoutContext } from './context/WorkoutContext'
 
 const WorkoutForm = () => {
   const [title, setTitle] = useState('')
   const [loads, setLoad] = useState('')
   const [reps, setReps] = useState('')
   const [error, setError] = useState(null)
+
+  const {setWorkoutArray} = useContext(WorkoutContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,15 +23,19 @@ const WorkoutForm = () => {
     })
     const json = await response.json()
 
-    if (!response.ok) {
+    if(!response.ok)
+    {
       setError(json.error)
     }
-    if (response.ok) {
+    
+    if(response.ok)
+    {
       setError(null)
       setTitle('')
       setLoad('')
       setReps('')
-      console.log('new workout added:', json)
+      setWorkoutArray((prevState)=>[...prevState,json]);
+      console.log('new workout added:', json);
     }
 
   }
